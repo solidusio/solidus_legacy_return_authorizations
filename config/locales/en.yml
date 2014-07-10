@@ -1,0 +1,19 @@
+# Sample localization file for English. Add more files in this directory for other locales.
+# See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
+
+en:
+  activerecord:
+    attributes:
+      spree/legacy_return_authorization:
+        amount: Amount
+    models:
+      spree/legacy_return_authorization:
+        one: Legacy Return Authorization
+        other: Legacy Return Authorizations
+  spree:
+    legacy_return_authorization: Legacy Return Authorization
+    legacy_return_authorization_updated: Legacy Return authorization updated
+    legacy_return_authorizations: Legacy Return Authorizations
+    legacy_rma_credit: Legacy RMA Credit
+    legacy_rma_number: Legacy RMA Number
+    legacy_rma_value: Legacy RMA Value
