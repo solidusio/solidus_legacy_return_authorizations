@@ -200,4 +200,16 @@ describe Spree::LegacyReturnAuthorization do
       legacy_return_authorization.returnable_inventory.should == []
     end
   end
+
+  context "destroy" do
+    before do
+      legacy_return_authorization.add_variant(variant.id, 1)
+      legacy_return_authorization.destroy
+    end
+
+    # Regression test for https://github.com/spree/spree/issues/4935
+    it "disassociates inventory units" do
+      expect(Spree::InventoryUnit.where(legacy_return_authorization_id: legacy_return_authorization.id).count).to eq 0
+    end
+  end
 end
