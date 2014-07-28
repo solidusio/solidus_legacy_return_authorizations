@@ -1,5 +1,5 @@
 module Spree
-  class LegacyReturnAuthorization < Spree::Base
+  class LegacyReturnAuthorization < ActiveRecord::Base
     belongs_to :order, class_name: 'Spree::Order'
 
     has_many :inventory_units, dependent: :nullify

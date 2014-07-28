@@ -2,7 +2,7 @@
 Gem::Specification.new do |s|
   s.platform    = Gem::Platform::RUBY
   s.name        = 'spree_legacy_return_authorizations'
-  s.version     = '2.4.0'
+  s.version     = '2.2.2'
   s.summary     = 'Interfaces for Spree 2.3 Legacy Return Authorizations'
   s.description = 'Provides models and admin interfaces to interact with the LegacyReturnAuthorization models from Spree versions prior to 2.4'
   s.required_ruby_version = '>= 1.9.3'
@@ -14,7 +14,7 @@ Gem::Specification.new do |s|
   s.require_path = 'lib'
   s.requirements << 'none'
 
-  s.add_dependency 'spree_core', '~> 2.4.0.beta'
+  s.add_dependency 'spree_core', '~> 2.2.2'
 
   s.add_development_dependency 'capybara', '~> 2.1'
   s.add_development_dependency 'coffee-rails'
