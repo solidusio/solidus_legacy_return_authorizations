@@ -1,7 +1,7 @@
 SpreeLegacyReturnAuthorizations
 ============================
 
-[![Build Status](https://travis-ci.org/bonobos/spree_legacy_return_authorizations.svg?branch=2-2-stable)](https://travis-ci.org/bonobos/spree_legacy_return_authorizations)
+[![Build Status](https://travis-ci.org/bonobos/spree_legacy_return_authorizations.svg?branch=2-2-dev)](https://travis-ci.org/bonobos/spree_legacy_return_authorizations)
 
 This is an extension for users migrating from legacy versions of Spree (2.3.x and prior) which had a different representation of and handling for return authorizations.
 
