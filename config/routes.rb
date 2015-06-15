@@ -1,6 +1,6 @@
 Spree::Core::Engine.routes.draw do
   namespace :api, defaults: { format: 'json' } do
-    concern :order_routes do
+    concern :legacy_return_routes do
       resources :legacy_return_authorizations, except: [:new, :create] do
         member do
           put :add
@@ -9,6 +9,8 @@ Spree::Core::Engine.routes.draw do
         end
       end
     end
+    resources :checkouts, concerns: :legacy_return_routes
+    resources :orders, concerns: :legacy_return_routes
   end
 
   namespace :admin do

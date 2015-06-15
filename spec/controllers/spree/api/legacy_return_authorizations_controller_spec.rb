@@ -28,16 +28,6 @@ module Spree
         spree_get :show, order_id: order.to_param, :id => 1, format: :json
         assert_unauthorized!
       end
-
-      it "cannot update a legacy return authorization" do
-        spree_put :update, order_id: order.to_param, format: :json
-        assert_not_found!
-      end
-
-      it "cannot delete a legacy return authorization" do
-        spree_delete :destroy, order_id: order.to_param, format: :json
-        assert_not_found!
-      end
     end
 
     context "as an admin" do

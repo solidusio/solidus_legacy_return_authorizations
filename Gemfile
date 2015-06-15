@@ -1,17 +1,10 @@
-source 'https://rubygems.org'
+source "https://rubygems.org"
 
-gem 'spree', github: 'bonobos/spree', branch: '2-2-dev'
+gem "solidus", git: "git@github.com:solidusio/solidus.git", branch: "master"
+gem "solidus_auth_devise", "~> 1.0"
 
-# Provides basic authentication functionality for testing parts of your engine
-gem 'spree_auth_devise', github: 'spree/spree_auth_devise', branch: '2-2-stable'
+group :development, :test do
+  gem "pry-rails"
+end
 
 gemspec
-
-group :test, :development do
-  platforms :ruby_20, :ruby_21 do
-    gem 'byebug'
-  end
-  platforms :ruby_19 do
-    gem 'debugger'
-  end
-end
