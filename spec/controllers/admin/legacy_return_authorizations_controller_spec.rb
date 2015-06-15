@@ -22,7 +22,7 @@ describe Spree::Admin::LegacyReturnAuthorizationsController do
     before { subject }
 
     it "redirects to legacy return authorizations index" do
-      response.should redirect_to(spree.admin_order_legacy_return_authorizations_path(legacy_return_authorization.order))
+      expect(response).to redirect_to(spree.admin_order_legacy_return_authorizations_path(legacy_return_authorization.order))
     end
 
     it "updates the reason" do

@@ -12,7 +12,7 @@ describe Spree::LegacyReturnAuthorization do
 
     it "should be invalid when order has no inventory units" do
       legacy_return_authorization.save
-      legacy_return_authorization.errors[:order].should == ["has no shipped units"]
+      expect(legacy_return_authorization.errors[:order]).to eq(["has no shipped units"])
     end
   end
 
@@ -23,18 +23,18 @@ describe Spree::LegacyReturnAuthorization do
 
         it "should return the assigned number" do
           legacy_return_authorization.save
-          legacy_return_authorization.number.should == '123'
+          expect(legacy_return_authorization.number).to eq('123')
         end
       end
 
       context "number is not assigned" do
         let(:legacy_return_authorization) { Spree::LegacyReturnAuthorization.new(number: nil) }
 
-        before { legacy_return_authorization.stub valid?: true }
+        before { allow(legacy_return_authorization).to receive_messages valid?: true }
 
         it "should assign number with random RMA number" do
           legacy_return_authorization.save
-          legacy_return_authorization.number.should =~ /RMA\d{9}/
+          expect(legacy_return_authorization.number).to match(/RMA\d{9}/)
         end
       end
     end
@@ -48,7 +48,7 @@ describe Spree::LegacyReturnAuthorization do
       end
 
       it "should update order state" do
-        order.should_receive(:authorize_return!)
+        expect(order).to receive(:authorize_return!)
         legacy_return_authorization.add_variant(variant.id, 1)
       end
     end
@@ -71,13 +71,13 @@ describe Spree::LegacyReturnAuthorization do
 
   context "can_receive?" do
     it "should allow_receive when inventory units assigned" do
-      legacy_return_authorization.stub(:inventory_units => [1,2,3])
-      legacy_return_authorization.can_receive?.should be_truthy
+      allow(legacy_return_authorization).to receive_messages(:inventory_units => [1,2,3])
+      expect(legacy_return_authorization.can_receive?).to be_truthy
     end
 
     it "should not allow_receive with no inventory units" do
-      legacy_return_authorization.stub(:inventory_units => [])
-      legacy_return_authorization.can_receive?.should be_falsey
+      allow(legacy_return_authorization).to receive_messages(:inventory_units => [])
+      expect(legacy_return_authorization.can_receive?).to be_falsey
     end
   end
 
@@ -86,25 +86,25 @@ describe Spree::LegacyReturnAuthorization do
 
     context "to the initial stock location" do
       before do
-        legacy_return_authorization.stub(:inventory_units => [inventory_unit], :amount => -20)
-        legacy_return_authorization.stub(:stock_location_id => inventory_unit.shipment.stock_location.id)
-        Spree::Adjustment.stub(:create)
-        order.stub(:update!)
+        allow(legacy_return_authorization).to receive_messages(:inventory_units => [inventory_unit], :amount => -20)
+        allow(legacy_return_authorization).to receive_messages(:stock_location_id => inventory_unit.shipment.stock_location.id)
+        allow(Spree::Adjustment).to receive(:create)
+        allow(order).to receive(:update!)
       end
 
       it "should mark all inventory units are returned" do
-        inventory_unit.should_receive(:return!)
+        expect(inventory_unit).to receive(:return!)
         legacy_return_authorization.receive!
       end
 
       it "should add credit for specified amount" do
         legacy_return_authorization.amount = 20
-        Spree::Adjustment.should_receive(:create).with(adjustable: order, amount: -20, label: Spree.t(:legacy_rma_credit), source: legacy_return_authorization)
+        expect(Spree::Adjustment).to receive(:create).with(adjustable: order, amount: -20, label: Spree.t(:legacy_rma_credit), source: legacy_return_authorization)
         legacy_return_authorization.receive!
       end
 
       it "should update order state" do
-        order.should_receive :update!
+        expect(order).to receive :update!
         legacy_return_authorization.receive!
       end
 
@@ -115,7 +115,7 @@ describe Spree::LegacyReturnAuthorization do
         it "should update the stock item counts in the stock location" do
           count_on_hand = inventory_unit.find_stock_item.count_on_hand
           legacy_return_authorization.receive!
-          inventory_unit.find_stock_item.count_on_hand.should == count_on_hand + 1
+          expect(inventory_unit.find_stock_item.count_on_hand).to eq(count_on_hand + 1)
         end
       end
 
@@ -137,8 +137,8 @@ describe Spree::LegacyReturnAuthorization do
       let(:new_stock_location) { FactoryGirl.create(:stock_location, :name => "other") }
 
       before do
-        legacy_return_authorization.stub(:stock_location_id => new_stock_location.id)
-        legacy_return_authorization.stub(:inventory_units => [inventory_unit], :amount => -20)
+        allow(legacy_return_authorization).to receive_messages(:stock_location_id => new_stock_location.id)
+        allow(legacy_return_authorization).to receive_messages(:inventory_units => [inventory_unit], :amount => -20)
         Spree::Config.track_inventory_levels = true
       end
       after { Spree::Config.track_inventory_levels = false }
@@ -146,7 +146,7 @@ describe Spree::LegacyReturnAuthorization do
       it "should update the stock item counts in new stock location" do
         count_on_hand = Spree::StockItem.where(variant_id: inventory_unit.variant_id, stock_location_id: new_stock_location.id).first.count_on_hand
         legacy_return_authorization.receive!
-        Spree::StockItem.where(variant_id: inventory_unit.variant_id, stock_location_id: new_stock_location.id).first.count_on_hand.should == count_on_hand + 1
+        expect(Spree::StockItem.where(variant_id: inventory_unit.variant_id, stock_location_id: new_stock_location.id).first.count_on_hand).to eq(count_on_hand + 1)
       end
 
       it "should NOT raise an error when no stock item exists in the stock location" do
@@ -157,7 +157,7 @@ describe Spree::LegacyReturnAuthorization do
       it "should not update the stock item counts in the original stock location" do
         count_on_hand = inventory_unit.find_stock_item.count_on_hand
         legacy_return_authorization.receive!
-        inventory_unit.find_stock_item.count_on_hand.should == count_on_hand
+        expect(inventory_unit.find_stock_item.count_on_hand).to eq(count_on_hand)
       end
     end
   end
@@ -166,38 +166,38 @@ describe Spree::LegacyReturnAuthorization do
     it "should ensure the amount is always positive" do
       legacy_return_authorization.amount = -10
       legacy_return_authorization.send :force_positive_amount
-      legacy_return_authorization.amount.should == 10
+      expect(legacy_return_authorization.amount).to eq(10)
     end
   end
 
   context "after_save" do
     it "should run correct callbacks" do
-      legacy_return_authorization.should_receive(:force_positive_amount)
+      expect(legacy_return_authorization).to receive(:force_positive_amount)
       legacy_return_authorization.run_callbacks(:save)
     end
   end
 
   context "currency" do
-    before { order.stub(:currency) { "ABC" } }
+    before { allow(order).to receive(:currency) { "ABC" } }
     it "returns the order currency" do
-      legacy_return_authorization.currency.should == "ABC"
+      expect(legacy_return_authorization.currency).to eq("ABC")
     end
   end
 
   context "display_amount" do
     it "returns a Spree::Money" do
       legacy_return_authorization.amount = 21.22
-      legacy_return_authorization.display_amount.should == Spree::Money.new(21.22)
+      expect(legacy_return_authorization.display_amount).to eq(Spree::Money.new(21.22))
     end
   end
 
   context "returnable_inventory" do
     skip "should return inventory from shipped shipments" do
-      legacy_return_authorization.returnable_inventory.should == [inventory_unit]
+      expect(legacy_return_authorization.returnable_inventory).to eq([inventory_unit])
     end
 
     skip "should not return inventory from unshipped shipments" do
-      legacy_return_authorization.returnable_inventory.should == []
+      expect(legacy_return_authorization.returnable_inventory).to eq([])
     end
   end
 

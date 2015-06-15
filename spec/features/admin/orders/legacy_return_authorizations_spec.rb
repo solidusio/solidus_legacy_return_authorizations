@@ -20,7 +20,7 @@ describe "legacy return authorizations" do
     click_link order.number
     click_link "Legacy Return Authorizations"
     click_link "Edit"
-    lambda { click_button "receive" }.should_not raise_error
+    expect { click_button "receive" }.not_to raise_error
   end
 
 end
