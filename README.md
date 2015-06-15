@@ -1,31 +1,39 @@
-SpreeLegacyReturnAuthorizations
-============================
+Solidus Legacy Return Authorizations
+====================================
 
-[![Build Status](https://travis-ci.org/bonobos/spree_legacy_return_authorizations.svg?branch=2-2-dev)](https://travis-ci.org/bonobos/spree_legacy_return_authorizations)
+This is an extension for users migrating from legacy versions of Spree (2.3.x
+and prior) which had a different representation of and handling for return
+authorizations.
 
-This is an extension for users migrating from legacy versions of Spree (2.3.x and prior) which had a different representation of and handling for return authorizations.
+When upgrading from a prior version of Spree to Solidus, simply include this
+extension in your application's Gemfile and your old data will be preserved in
+separate tables (e.g., `spree_legacy_return_authorizations`) and columns (e.g.
+`spree_inventory_units.legacy_return_authorization_id`).
 
-When upgrading from a prior version of Spree to Spree 2.4.x, simply include this extension in your application's Gemfile and your old data will be preserved in separate tables (e.g., "spree_legacy_return_authorizations") and columns (e.g. "spree_inventory_units.legacy_return_authorization_id").
+This extension maintains the legacy admin interfaces for viewing and closing
+out (receiving/canceling) any existing legacy return authorizations. It does
+not allow creating any new legacy return authorizations.  New return
+authorizations should be handled through the new returns system included in
+Solidus.
 
-This extension maintains the legacy admin interfaces for viewing and closing out (receiving/canceling) any existing legacy return authorizations. It does not allow creating any new legacy return authorizations.  New return authorizations should be handled through the new returns system included in Spree 2.4.
-
-If an order has existing legacy return authorizations then an additional admin menu item "Legacy Return Authorizations" will appear in the admin interface for that order (/admin/orders/XXX/edit).
-
+If an order has existing legacy return authorizations then an additional admin
+menu item "Legacy Return Authorizations" will appear in the admin interface for
+that order (/admin/orders/XXX/edit).
 
 Installation
 ------------
 
-Add spree_legacy_return_authorizations to your Gemfile:
+Add solidus_legacy_return_authorizations to your Gemfile:
 
 ```ruby
-gem 'spree_legacy_return_authorizations'
+gem "solidus_legacy_return_authorizations"
 ```
 
 Bundle your dependencies and run the installation generator:
 
 ```shell
 bundle
-bundle exec rails g spree_legacy_return_authorizations:install
+bundle exec rails g solidus_legacy_return_authorizations:install
 ```
 
 Testing
@@ -44,5 +52,3 @@ Simply add this require statement to your spec_helper:
 ```ruby
 require 'spree_legacy_return_authorizations/factories'
 ```
-
-Copyright (c) 2014 [name of extension creator], released under the New BSD License
