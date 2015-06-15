@@ -1,8 +1,8 @@
-module SpreeLegacyReturnAuthorizations
+module SolidusLegacyReturnAuthorizations
   module Generators
     class InstallGenerator < Rails::Generators::Base
 
-      class_option :auto_run_migrations, :type => :boolean, :default => false
+      class_option :auto_run_migrations, type: :boolean, default: false
 
       def add_javascripts
         append_file 'vendor/assets/javascripts/spree/backend/all.js', "//= require spree/backend/spree_legacy_return_authorizations\n"
@@ -13,7 +13,7 @@ module SpreeLegacyReturnAuthorizations
       end
 
       def add_migrations
-        run 'bundle exec rake railties:install:migrations FROM=spree_legacy_return_authorizations'
+        run 'bundle exec rake railties:install:migrations FROM=solidus_legacy_return_authorizations'
       end
 
       def run_migrations
