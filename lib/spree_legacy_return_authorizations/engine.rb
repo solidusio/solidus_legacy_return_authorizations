@@ -2,7 +2,7 @@ module SpreeLegacyReturnAuthorizations
   class Engine < Rails::Engine
     require 'spree/core'
     isolate_namespace Spree
-    engine_name 'spree_legacy_return_authorizations'
+    engine_name 'solidus_legacy_return_authorizations'
 
     # use rspec for tests
     config.generators do |g|
