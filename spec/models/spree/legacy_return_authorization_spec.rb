@@ -110,7 +110,6 @@ describe Spree::LegacyReturnAuthorization do
 
       context 'with Config.track_inventory_levels == true' do
         before { Spree::Config.track_inventory_levels = true }
-        after { Spree::Config.track_inventory_levels = false }
 
         it "should update the stock item counts in the stock location" do
           count_on_hand = inventory_unit.find_stock_item.count_on_hand
@@ -123,6 +122,7 @@ describe Spree::LegacyReturnAuthorization do
         before do
           expect(Spree::StockItem).not_to receive(:find_by)
           expect(Spree::StockMovement).not_to receive(:create!)
+          Spree::Config.track_inventory_levels = false
         end
 
         it "should NOT update the stock item counts in the stock location" do
@@ -141,7 +141,6 @@ describe Spree::LegacyReturnAuthorization do
         allow(legacy_return_authorization).to receive_messages(:inventory_units => [inventory_unit], :amount => -20)
         Spree::Config.track_inventory_levels = true
       end
-      after { Spree::Config.track_inventory_levels = false }
 
       it "should update the stock item counts in new stock location" do
         count_on_hand = Spree::StockItem.where(variant_id: inventory_unit.variant_id, stock_location_id: new_stock_location.id).first.count_on_hand

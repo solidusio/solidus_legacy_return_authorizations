@@ -62,6 +62,7 @@ RSpec.configure do |config|
     DatabaseCleaner.strategy = example.metadata[:js] ? :truncation : :transaction
     DatabaseCleaner.start
 
+    Spree::Config.reset
     Spree::Api::Config[:requires_authentication] = true
   end
 
