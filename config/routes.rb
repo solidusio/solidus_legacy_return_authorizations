@@ -9,8 +9,8 @@ Spree::Core::Engine.routes.draw do
         end
       end
     end
-    resources :checkouts, concerns: :legacy_return_routes
-    resources :orders, concerns: :legacy_return_routes
+    resources :checkouts, only: [], concerns: :legacy_return_routes
+    resources :orders, only: [], concerns: :legacy_return_routes
   end
 
   namespace :admin do
