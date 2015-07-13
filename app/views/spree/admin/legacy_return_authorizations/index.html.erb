@@ -1,7 +1,9 @@
 <%= render :partial => 'spree/admin/shared/order_tabs', :locals => { :current => 'Legacy Return Authorizations' } %>
 
 <% content_for :page_actions do %>
-  <li><%= button_link_to Spree.t(:back_to_orders_list), spree.admin_orders_path, :icon => 'arrow-left' %></li>
+  <% if can?(:display, Spree::Order) %>
+    <li><%= button_link_to Spree.t(:back_to_orders_list), spree.admin_orders_path, :icon => 'arrow-left' %></li>
+  <% end %>
 <% end %>
 
 <% content_for :page_title do %>
@@ -27,13 +29,14 @@
           <td><%= legacy_return_authorization.display_amount.to_html %></td>
           <td><%= pretty_time(legacy_return_authorization.created_at) %></td>
           <td class="actions">
-            <%= link_to_edit legacy_return_authorization, :no_text => true, :class => 'edit' %>
-            <% unless legacy_return_authorization.received? %>
+            <% if can?(:update, legacy_return_authorization) %>
+              <%= link_to_edit legacy_return_authorization, :no_text => true, :class => 'edit' %>
+            <% end %>
+            <% if can?(:destroy, legacy_return_authorization) && !legacy_return_authorization.received? %>
               &nbsp;
               <%= link_to_delete legacy_return_authorization, :no_text => true %>
             <% end %>
           </td>
-
         </tr>
       <% end %>
     </tbody>
