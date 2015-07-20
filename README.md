@@ -36,6 +36,14 @@ bundle
 bundle exec rails g solidus_legacy_return_authorizations:install
 ```
 
+Authorization
+-------------
+
+For discrete authorization, two permission sets have been added to allow for granular display in the admin.
+
+`Spree::PermissionSets::LegacyReturnAuthorizationDisplay` and `Spree::PermissionSets::LegacyReturnAuthorizationManagement` have been added and can be assigned via [RoleConfiguration](http://docs.solidus.io/Spree/RoleConfiguration.html)
+
+
 Testing
 -------
 

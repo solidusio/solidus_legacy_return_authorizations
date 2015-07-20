@@ -26,6 +26,7 @@ require 'spree/testing_support/authorization_helpers'
 require 'spree/testing_support/url_helpers'
 
 require 'spree/api/testing_support/helpers'
+require 'cancan/matchers'
 
 require 'spree_legacy_return_authorizations/factories'
 
