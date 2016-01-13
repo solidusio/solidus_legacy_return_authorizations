@@ -3,7 +3,7 @@
 Gem::Specification.new do |s|
   s.platform    = Gem::Platform::RUBY
   s.name        = "solidus_legacy_return_authorizations"
-  s.version     = "1.0.0"
+  s.version     = "1.0.1"
   s.summary     = "Interfaces for Spree 2.3 Legacy Return Authorizations"
   s.description = "Provides models and admin interfaces to interact with the LegacyReturnAuthorization models from Spree versions prior to 2.4"
   s.required_ruby_version = ">= 2.1"
