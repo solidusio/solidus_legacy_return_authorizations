@@ -1,10 +1,9 @@
 source "https://rubygems.org"
 
-gem "solidus", github: "solidusio/solidus", branch: "master"
-gem "solidus_auth_devise", "~> 1.0"
+branch = ENV.fetch('SOLIDUS_BRANCH', 'master')
+gem "solidus", github: "solidusio/solidus", branch: branch
 
-group :development, :test do
-  gem "pry-rails"
-end
+gem 'pg'
+gem 'mysql2'
 
 gemspec
