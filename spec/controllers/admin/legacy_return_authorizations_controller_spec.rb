@@ -10,7 +10,7 @@ describe Spree::Admin::LegacyReturnAuthorizationsController do
     let(:new_reason) { 'new reason' }
 
     subject do
-      put :update, {
+      put :update, params: {
         id: legacy_return_authorization.to_param,
         order_id: legacy_return_authorization.order.to_param,
         legacy_return_authorization: {
