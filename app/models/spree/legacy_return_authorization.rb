@@ -81,7 +81,7 @@ module Spree
       end
 
       def process_return
-        inventory_units(include: :variant).each do |iu|
+        inventory_units.includes(:variant).each do |iu|
           iu.return!
 
           if iu.variant.should_track_inventory?

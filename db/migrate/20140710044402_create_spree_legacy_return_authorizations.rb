@@ -1,4 +1,4 @@
-class CreateSpreeLegacyReturnAuthorizations < ActiveRecord::Migration
+class CreateSpreeLegacyReturnAuthorizations < SolidusSupport::Migration[4.2]
   def up
     # If this is a migrated database that had legacy returns in it then the table will already exist.
     # But if this is a dev box, etc that's just including this extension then we need to create the table.

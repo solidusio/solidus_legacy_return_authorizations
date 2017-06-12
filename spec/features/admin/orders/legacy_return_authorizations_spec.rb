@@ -19,6 +19,7 @@ describe "legacy return authorizations" do
     click_link "Orders"
     click_link order.number
     click_link "Legacy Return Authorizations"
+    expect(page).to have_css('li.selected', text: "Orders")
     click_link "Edit"
     expect { click_button "receive" }.not_to raise_error
   end
