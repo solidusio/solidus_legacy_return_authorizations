@@ -9,7 +9,11 @@ module Spree
       def fire
         @legacy_return_authorization.send("#{params[:e]}!")
         flash[:success] = Spree.t(:legacy_return_authorization_updated)
-        redirect_to :back
+        if SolidusSupport.solidus_gem_version < Gem::Version.new('2.0')
+          redirect_to :back
+        else
+          redirect_back(fallback_location: edit_admin_order_legacy_return_authorization_path(@order, @legacy_return_authorization))
+        end
       end
 
       # We don't want to allow creating new legacy RMAs so remove the default methods provided by Admin::ResourceController

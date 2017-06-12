@@ -86,15 +86,17 @@ describe Spree::LegacyReturnAuthorization do
 
     context "to the initial stock location" do
       before do
-        allow(legacy_return_authorization).to receive_messages(:inventory_units => [inventory_unit], :amount => -20)
-        allow(legacy_return_authorization).to receive_messages(:stock_location_id => inventory_unit.shipment.stock_location.id)
+        legacy_return_authorization.update!(
+          inventory_units: [inventory_unit],
+          stock_location_id: inventory_unit.shipment.stock_location.id
+        )
+
         allow(Spree::Adjustment).to receive(:create)
-        allow(order).to receive(:update!)
       end
 
       it "should mark all inventory units are returned" do
-        expect(inventory_unit).to receive(:return!)
         legacy_return_authorization.receive!
+        expect(inventory_unit.reload).to be_returned
       end
 
       it "should add credit for specified amount" do
@@ -137,8 +139,11 @@ describe Spree::LegacyReturnAuthorization do
       let(:new_stock_location) { FactoryGirl.create(:stock_location, :name => "other") }
 
       before do
-        allow(legacy_return_authorization).to receive_messages(:stock_location_id => new_stock_location.id)
-        allow(legacy_return_authorization).to receive_messages(:inventory_units => [inventory_unit], :amount => -20)
+        legacy_return_authorization.update!(
+          :stock_location_id => new_stock_location.id,
+          :inventory_units => [inventory_unit],
+          :amount => -20
+        )
         Spree::Config.track_inventory_levels = true
       end
 
