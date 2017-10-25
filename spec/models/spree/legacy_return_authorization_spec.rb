@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Spree::LegacyReturnAuthorization do
   let(:stock_location) { Spree::StockLocation.create(:name => "test") }
-  let(:order) { FactoryGirl.create(:shipped_order) }
+  let(:order) { FactoryBot.create(:shipped_order) }
 
   let(:variant) { order.variants.first }
   let(:legacy_return_authorization) { Spree::LegacyReturnAuthorization.new(:order => order, :stock_location_id => stock_location.id) }
@@ -136,7 +136,7 @@ describe Spree::LegacyReturnAuthorization do
     end
 
     context "to a different stock location" do
-      let(:new_stock_location) { FactoryGirl.create(:stock_location, :name => "other") }
+      let(:new_stock_location) { FactoryBot.create(:stock_location, :name => "other") }
 
       before do
         legacy_return_authorization.update!(

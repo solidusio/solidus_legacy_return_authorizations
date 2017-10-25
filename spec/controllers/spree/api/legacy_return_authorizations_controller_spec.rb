@@ -36,7 +36,7 @@ module Spree
       end
 
       it "can show legacy return authorization" do
-        FactoryGirl.create(:legacy_return_authorization, :order => order)
+        FactoryBot.create(:legacy_return_authorization, :order => order)
         legacy_return_authorization = order.legacy_return_authorizations.first
         get :show, params: { :order_id => order.number, :id => legacy_return_authorization.id, format: :json }
         expect(response.status).to eq(200)
@@ -45,8 +45,8 @@ module Spree
       end
 
       it "can get a list of legacy return authorizations" do
-        FactoryGirl.create(:legacy_return_authorization, :order => order)
-        FactoryGirl.create(:legacy_return_authorization, :order => order)
+        FactoryBot.create(:legacy_return_authorization, :order => order)
+        FactoryBot.create(:legacy_return_authorization, :order => order)
         get :index, params: { :order_id => order.number, format: :json }
         expect(response.status).to eq(200)
         legacy_return_authorizations = json_response["legacy_return_authorizations"]
@@ -55,8 +55,8 @@ module Spree
       end
 
       it 'can control the page size through a parameter' do
-        FactoryGirl.create(:legacy_return_authorization, :order => order)
-        FactoryGirl.create(:legacy_return_authorization, :order => order)
+        FactoryBot.create(:legacy_return_authorization, :order => order)
+        FactoryBot.create(:legacy_return_authorization, :order => order)
         get :index, params: { :order_id => order.number, :per_page => 1, format: :json }
         expect(json_response['count']).to eq(1)
         expect(json_response['current_page']).to eq(1)
@@ -64,7 +64,7 @@ module Spree
       end
 
       it 'can query the results through a parameter' do
-        FactoryGirl.create(:legacy_return_authorization, :order => order)
+        FactoryBot.create(:legacy_return_authorization, :order => order)
         expected_result = create(:legacy_return_authorization, :reason => 'damaged')
         order.legacy_return_authorizations << expected_result
         get :index, params: { :q => { :reason_cont => 'damage' }, order_id: order.to_param, format: :json }
@@ -73,7 +73,7 @@ module Spree
       end
 
       it "can update a legacy return authorization on the order" do
-        FactoryGirl.create(:legacy_return_authorization, :order => order)
+        FactoryBot.create(:legacy_return_authorization, :order => order)
         legacy_return_authorization = order.legacy_return_authorizations.first
         put :update, params: { :id => legacy_return_authorization.id, :legacy_return_authorization => { :amount => 19.99 }, order_id: order.to_param, format: :json }
         expect(response.status).to eq(200)
@@ -81,7 +81,7 @@ module Spree
       end
 
       it "can add an inventory unit to a legacy return authorization on the order" do
-        FactoryGirl.create(:legacy_return_authorization, :order => order)
+        FactoryBot.create(:legacy_return_authorization, :order => order)
         legacy_return_authorization = order.legacy_return_authorizations.first
         inventory_unit = legacy_return_authorization.returnable_inventory.first
         expect(inventory_unit).to be
@@ -93,7 +93,7 @@ module Spree
       end
 
       it "can mark a legacy return authorization as received on the order with an inventory unit" do
-        FactoryGirl.create(:new_legacy_return_authorization, :order => order, :stock_location_id => order.shipments.first.stock_location.id)
+        FactoryBot.create(:new_legacy_return_authorization, :order => order, :stock_location_id => order.shipments.first.stock_location.id)
         legacy_return_authorization = order.legacy_return_authorizations.first
         expect(legacy_return_authorization.state).to eq("authorized")
 
@@ -110,7 +110,7 @@ module Spree
       end
 
       it "cannot mark a legacy return authorization as received on the order with no inventory units" do
-        FactoryGirl.create(:new_legacy_return_authorization, :order => order)
+        FactoryBot.create(:new_legacy_return_authorization, :order => order)
         legacy_return_authorization = order.legacy_return_authorizations.first
         expect(legacy_return_authorization.state).to eq("authorized")
         delete :receive, params: { :id => legacy_return_authorization.id, order_id: order.to_param, format: :json }
@@ -119,7 +119,7 @@ module Spree
       end
 
       it "can cancel a legacy return authorization on the order" do
-        FactoryGirl.create(:new_legacy_return_authorization, :order => order)
+        FactoryBot.create(:new_legacy_return_authorization, :order => order)
         legacy_return_authorization = order.legacy_return_authorizations.first
         expect(legacy_return_authorization.state).to eq("authorized")
         delete :cancel, params: { :id => legacy_return_authorization.id, order_id: order.to_param, format: :json }
@@ -128,7 +128,7 @@ module Spree
       end
 
       it "can delete a legacy return authorization on the order" do
-        FactoryGirl.create(:legacy_return_authorization, :order => order)
+        FactoryBot.create(:legacy_return_authorization, :order => order)
         legacy_return_authorization = order.legacy_return_authorizations.first
         delete :destroy, params: { :id => legacy_return_authorization.id, order_id: order.to_param, format: :json }
         expect(response.status).to eq(204)
@@ -138,7 +138,7 @@ module Spree
 
     context "as just another user" do
       it "cannot update a legacy return authorization on the order" do
-        FactoryGirl.create(:legacy_return_authorization, :order => order)
+        FactoryBot.create(:legacy_return_authorization, :order => order)
         legacy_return_authorization = order.legacy_return_authorizations.first
         put :update, params: { :id => legacy_return_authorization.id, :legacy_return_authorization => { :amount => 19.99 }, order_id: order.to_param, format: :json }
         assert_unauthorized!
@@ -146,7 +146,7 @@ module Spree
       end
 
       it "cannot delete a legacy return authorization on the order" do
-        FactoryGirl.create(:legacy_return_authorization, :order => order)
+        FactoryBot.create(:legacy_return_authorization, :order => order)
         legacy_return_authorization = order.legacy_return_authorizations.first
         delete :destroy, params: { :id => legacy_return_authorization.id, order_id: order.to_param, format: :json }
         assert_unauthorized!
