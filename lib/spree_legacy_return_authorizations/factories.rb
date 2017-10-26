@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :legacy_return_authorization, class: Spree::LegacyReturnAuthorization do
     number '100'
     amount 100.00
