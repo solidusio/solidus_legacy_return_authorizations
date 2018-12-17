@@ -101,12 +101,12 @@ describe Spree::LegacyReturnAuthorization do
 
       it "should add credit for specified amount" do
         legacy_return_authorization.amount = 20
-        expect(Spree::Adjustment).to receive(:create).with(adjustable: order, amount: -20, label: Spree.t(:legacy_rma_credit), source: legacy_return_authorization)
+        expect(Spree::Adjustment).to receive(:create).with(adjustable: order, amount: -20, label: I18n.t('spree.legacy_rma_credit'), source: legacy_return_authorization)
         legacy_return_authorization.receive!
       end
 
       it "should update order state" do
-        expect(order).to receive :update!
+        expect(order).to receive :recalculate
         legacy_return_authorization.receive!
       end
 
@@ -154,7 +154,7 @@ describe Spree::LegacyReturnAuthorization do
       end
 
       it "should NOT raise an error when no stock item exists in the stock location" do
-        inventory_unit.find_stock_item.destroy
+        inventory_unit.find_stock_item.discard
         expect { legacy_return_authorization.receive! }.not_to raise_error
       end
 

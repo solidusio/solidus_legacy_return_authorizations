@@ -2,10 +2,10 @@
   <table class="index">
     <thead>
       <tr data-hook="legacy_rma_header">
-        <th><%= Spree.t(:product) %></th>
-        <th><%= Spree.t(:quantity_shipped) %></th>
-        <th><%= Spree.t(:quantity_returned) %></th>
-        <th><%= Spree.t(:return_quantity) %></th>
+        <th><%= I18n.t('spree.product') %></th>
+        <th><%= I18n.t('spree.quantity_shipped') %></th>
+        <th><%= I18n.t('spree.quantity_returned') %></th>
+        <th><%= I18n.t('spree.return_quantity') %></th>
       </tr>
     </thead>
     <tbody>
@@ -33,23 +33,23 @@
   </table>
 
   <%= f.field_container :amount do %>
-    <%= f.label :amount, Spree.t(:amount) %> <span class="required">*</span><br />
+    <%= f.label :amount, I18n.t('spree.amount') %> <span class="required">*</span><br />
     <% if @legacy_return_authorization.received? %>
       <%= @legacy_return_authorization.display_amount %>
     <% else %>
-      <%= f.text_field :amount, {:style => 'width:80px;'} %> <%= Spree.t(:legacy_rma_value) %>: <span id="legacy_rma_value">0.00</span>
+      <%= f.text_field :amount, {:style => 'width:80px;'} %> <%= I18n.t('spree.legacy_rma_value') %>: <span id="legacy_rma_value">0.00</span>
       <%= f.error_message_on :amount %>
     <% end %>
   <% end %>
 
   <%= f.field_container :reason do %>
-    <%= f.label :reason, Spree.t(:reason) %>
+    <%= f.label :reason, I18n.t('spree.reason') %>
     <%= f.text_area :reason, {:style => 'height:100px;', :class => 'fullwidth'} %>
     <%= f.error_message_on :reason %>
   <% end %>
 
   <%= f.field_container :stock_location do %>
-    <%= f.label :stock_location, Spree.t(:stock_location) %>
+    <%= f.label :stock_location, I18n.t('spree.stock_location') %>
     <%= f.select :stock_location_id, Spree::StockLocation.active.to_a.collect{|l|[l.name, l.id]}, {:style => 'height:100px;', :class => 'fullwidth'} %>
     <%= f.error_message_on :reason %>
   <% end %>
