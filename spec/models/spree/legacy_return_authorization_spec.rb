@@ -106,7 +106,12 @@ describe Spree::LegacyReturnAuthorization do
       end
 
       it "should update order state" do
-        expect(order).to receive :recalculate
+        if Spree.solidus_gem_version >= Gem::Version.new('2.4.0')
+          expect(order).to receive :recalculate
+        else
+          expect(order).to receive :update!
+        end
+
         legacy_return_authorization.receive!
       end
 
@@ -154,7 +159,12 @@ describe Spree::LegacyReturnAuthorization do
       end
 
       it "should NOT raise an error when no stock item exists in the stock location" do
-        inventory_unit.find_stock_item.discard
+        if Spree.solidus_gem_version >= Gem::Version.new('2.5.0')
+          inventory_unit.find_stock_item.discard
+        else
+          inventory_unit.find_stock_item.destroy
+        end
+
         expect { legacy_return_authorization.receive! }.not_to raise_error
       end
 

@@ -92,7 +92,12 @@ module Spree
         end
 
         Adjustment.create(adjustable: order, amount: compute_amount, label: I18n.t('spree.legacy_rma_credit'), source: self)
-        order.recalculate
+
+        if Spree.solidus_gem_version >= Gem::Version.new('2.4.0')
+          order.recalculate
+        else
+          order.update!
+        end
 
         order.return if inventory_units.all?(&:returned?)
       end
