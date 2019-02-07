@@ -8,7 +8,7 @@ module Spree
 
       def fire
         @legacy_return_authorization.send("#{params[:e]}!")
-        flash[:success] = Spree.t(:legacy_return_authorization_updated)
+        flash[:success] = I18n.t('spree.legacy_return_authorization_updated')
         if SolidusSupport.solidus_gem_version < Gem::Version.new('2.0')
           redirect_to :back
         else

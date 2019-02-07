@@ -1,12 +1,12 @@
 <% content_for :page_actions do %>
   <li>
     <% if @legacy_return_authorization.can_receive? %>
-      <%= button_link_to Spree.t(:receive), fire_admin_order_legacy_return_authorization_url(@order, @legacy_return_authorization, :e => 'receive'), :method => :put, :data => { :confirm => Spree.t(:are_you_sure) }, :icon => 'download-alt' %>
+      <%= button_to I18n.t('spree.receive'), fire_admin_order_legacy_return_authorization_url(@order, @legacy_return_authorization, :e => 'receive'), :method => :put, :data => { :confirm => I18n.t('spree.are_you_sure') }, :icon => 'download-alt' %>
     <% end %>
   </li>
   <li>
     <% if @legacy_return_authorization.can_cancel? %>
-      <%= button_link_to Spree.t('actions.cancel'), fire_admin_order_legacy_return_authorization_url(@order, @legacy_return_authorization, :e => 'cancel'), :method => :put, :data => { :confirm => Spree.t(:are_you_sure) }, :icon => 'remove' %>
+      <%= button_to I18n.t('spree.actions.cancel'), fire_admin_order_legacy_return_authorization_url(@order, @legacy_return_authorization, :e => 'cancel'), :method => :put, :data => { :confirm => I18n.t('spree.are_you_sure') }, :icon => 'remove' %>
     <% end %>
   </li>
 <% end %>
@@ -14,7 +14,7 @@
 <%= render :partial => 'spree/admin/shared/order_tabs', :locals => { :current => 'Legacy Return Authorizations' } %>
 
 <% content_for :page_title do %>
-  <i class="fa fa-arrow-right"></i> <%= Spree.t(:legacy_return_authorization) %> <%= @legacy_return_authorization.number %> (<%= Spree.t(@legacy_return_authorization.state.downcase) %>)
+  <i class="fa fa-arrow-right"></i> <%= I18n.t('spree.legacy_return_authorization') %> <%= @legacy_return_authorization.number %> (<%= I18n.t(@legacy_return_authorization.state.downcase) %>)
 <% end %>
 
 
@@ -24,9 +24,9 @@
     <%= render :partial => 'form', :locals => { :f => f } %>
 
     <div class="form-buttons filter-actions actions" data-hook="buttons">
-      <%= button Spree.t('actions.update'), 'repeat' %>
-      <span class="or"><%= Spree.t(:or) %></span>
-      <%= button_link_to Spree.t('actions.cancel'), admin_order_legacy_return_authorizations_url(@order), :icon => 'remove' %>
+      <%= button_to I18n.t('spree.actions.update'), 'repeat' %>
+      <span class="or"><%= I18n.t('spree.or') %></span>
+      <%= button_to I18n.t('spree.actions.cancel'), admin_order_legacy_return_authorizations_url(@order), :icon => 'remove' %>
     </div>
   </fieldset>
 <% end %>
